@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
+cors = CORS(app)
 
 participations = [
     {
@@ -30,10 +32,12 @@ participations = [
 ]
 
 @app.route("/participations")
+@cross_origin()
 def get_participations():
     return jsonify(participations)
 
 @app.route("/participations", methods=['POST'])
+@cross_origin()
 def add_participation():
     participations.append(request.get_json())
     return '', 204
