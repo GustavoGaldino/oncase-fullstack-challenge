@@ -1,14 +1,13 @@
 import env from 'react-dotenv'
 
-export default function api() {
+export function fetchParticipationsData () {
+    return;
+}
 
-    function fetchParticipations () {
-        return;
-    }
+export function addParticipationData () {
+    return;
+}
 
-    function addParticipation () {
-        return;
-    }
-
-    return { fetchParticipations, addParticipation } 
+export function removeParticipationData () {
+    return;
 }

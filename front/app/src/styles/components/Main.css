@@ -1,0 +1,6 @@
+.main-container {
+    height: calc(100% - 12rem);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
