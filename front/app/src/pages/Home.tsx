@@ -71,6 +71,7 @@ export function Home () {
             />
             <Main
                 data={data}
+                participations={participations}
             />
         </div>
     );
