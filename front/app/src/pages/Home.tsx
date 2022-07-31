@@ -34,17 +34,30 @@ export function Home () {
             borderWidth: 1,
         };
 
+        let totalParticipation = 0;
+
         participations.map( (participation : IParticipation) => {
             
             newDataState.labels?.push(`${participation.firstName} ${participation.lastName}`)
 
             firstDataset.data.push( participation.participation )
 
+            if (participation.participation !== undefined) {
+                totalParticipation += participation.participation;
+            }
+
             firstDataset.backgroundColor.push( generateRandomRGBAsString() )
 
             firstDataset.borderColor.push( "#fff" ) 
 
         })
+
+        participations.map ( (participation : IParticipation) => {
+            if (participation.participation !== undefined) {
+                let percentage = Number((participation.participation / totalParticipation).toFixed(2));
+                participation.percentage = percentage;
+            }
+        } );
 
         newDataState.datasets.push(firstDataset)
 
@@ -72,6 +85,7 @@ export function Home () {
             <Main
                 data={data}
                 participations={participations}
+                setParticipations={setParticipations}
             />
         </div>
     );

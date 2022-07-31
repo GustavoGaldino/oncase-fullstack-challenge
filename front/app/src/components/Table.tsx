@@ -1,8 +1,15 @@
 import IParticipation from '../interfaces/participations';
 import '../styles/components/Table.css'
 
+import { Dispatch, SetStateAction } from 'react'
+
+import { BsTrash } from 'react-icons/bs'
+
+import { fetchParticipationsData, removeParticipationData } from '../api/api'
+
 type TableProps = {
     participations: IParticipation[];
+    setParticipations: Dispatch<SetStateAction<IParticipation[]>>;
 }
 
 const tableHeadCells = [
@@ -26,9 +33,33 @@ const tableHeadCells = [
         text: "Percentage",
         indexCell: false
     },
+    {
+        text: "",
+        indexCell: true
+    }
 ]
 
-export function Table ({participations} : TableProps) {
+export function Table ({participations, setParticipations} : TableProps) {
+
+    const handleClick = async (firstName: string, lastName: string) => {
+
+        const response = await removeParticipationData({
+            firstName,
+            lastName
+        })
+
+        console.log(response)
+
+        if (response.ok) {
+            setParticipations ( await fetchParticipationsData() );
+        }
+
+        else {
+            alert ( response.message )
+        }
+
+    }
+
     return (
         <div className="table-container">
             <table>
@@ -45,7 +76,9 @@ export function Table ({participations} : TableProps) {
                     return (
                         <tr>
                             <td className="index-cell" >
-                                {index}
+                                <span>
+                                    {index}
+                                </span>
                             </td>
                             <td className="normal-cell">
                                 {p.firstName}
@@ -57,7 +90,14 @@ export function Table ({participations} : TableProps) {
                                 {p.participation}
                             </td>
                             <td className="normal-cell">
-                                {p.participation}
+                                {p.percentage ? String(p.percentage * 100) + "%"  : "Unknown"}
+                            </td>
+                            <td className="index-cell" >
+                                <button type="button" onClick={() => {
+                                    handleClick(p.firstName, p.lastName);
+                                }}>
+                                    <BsTrash />
+                                </button>
                             </td>
                         </tr>
                     )

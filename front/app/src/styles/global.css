@@ -40,6 +40,12 @@ body, input, textarea, button {
 
 button {
     cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+    color: inherit;
+    outline: inherit;
+    font: inherit;
 }
 
 a {

@@ -1,5 +1,6 @@
 export default interface IParticipation {
     firstName: string;
     lastName: string;
-    participation: number;
+    participation?: number;
+    percentage?: number;
 }

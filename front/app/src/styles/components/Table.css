@@ -1,6 +1,5 @@
 .table-container {
     background-color: var(--mild-white);
-    padding: ;
     min-width: 40rem;
 }
 
@@ -25,7 +24,7 @@ table {
 }
 
 .normal-cell {
-    width: 23%;
+    width: 21%;
     border: 1px solid black;
 
     display: flex;
@@ -41,4 +40,17 @@ tr {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.index-cell span {
+    margin-right: 5px;
+}
+
+.index-cell button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    font-size: .875rem;
+    margin-top: 4px;
 }
