@@ -41,17 +41,15 @@ const tableHeadCells = [
 
 export function Table ({participations, setParticipations} : TableProps) {
 
-    const handleClick = async (firstName: string, lastName: string) => {
+    const handleRemove = async (firstName: string, lastName: string) => {
 
         const response = await removeParticipationData({
             firstName,
             lastName
         })
 
-        console.log(response)
-
         if (response.ok) {
-            setParticipations ( await fetchParticipationsData() );
+            setParticipations ( (await fetchParticipationsData()).data );
         }
 
         else {
@@ -94,7 +92,7 @@ export function Table ({participations, setParticipations} : TableProps) {
                             </td>
                             <td className="index-cell" >
                                 <button type="button" onClick={() => {
-                                    handleClick(p.firstName, p.lastName);
+                                    handleRemove(p.firstName, p.lastName);
                                 }}>
                                     <BsTrash />
                                 </button>

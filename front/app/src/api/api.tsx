@@ -3,20 +3,19 @@ import env from 'react-dotenv'
 import IParticipation from '../interfaces/participations';
 import { APIResponse } from './interfaces/apiInterfaces';
 
-export async function fetchParticipationsData () : Promise<IParticipation[]> {
-    const response = await fetch(`${env.API_ENDPOINT}/participations`).then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`)
-        }
-        return res;
-    }).then( (res : Response) => res.json())
+export async function fetchParticipationsData () : Promise<APIResponse> {
+    const response = await fetch(`${env.API_ENDPOINT}/participations`).then(res => res.json());
 
-    console.log(response)
+    return {
+        ok: response.ok,
+        message: response.message,
+        statusCode: response.status,
+        data: response.data
+    };
 
-    return response
 }
 
-export async function addParticipationData ( data : IParticipation ) : Promise<void> {
+export async function addParticipationData ( data : IParticipation ) : Promise<APIResponse> {
 
     const config  = {
         method: 'POST',
@@ -26,16 +25,14 @@ export async function addParticipationData ( data : IParticipation ) : Promise<v
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(`${env.API_ENDPOINT}/participations`, config)
-    .then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`)
-        }
-        return res;
-    })
-    .then(res => res.json())
+    const response = await fetch(`${env.API_ENDPOINT}/participations`, config).then(res => res.json());
 
-    return response;
+    return {
+        ok: response.ok,
+        message: response.message,
+        statusCode: response.status,
+    };
+
 }
 
 export async function removeParticipationData (data : IParticipation) : Promise<APIResponse> {
@@ -48,19 +45,12 @@ export async function removeParticipationData (data : IParticipation) : Promise<
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(`${env.API_ENDPOINT}/participations`, config)
-    .then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-        return res;
-    })
-    .then(res => res.json());
+    const response = await fetch(`${env.API_ENDPOINT}/participations`, config).then(res => res.json());
 
     return {
-        ok: true,
-        message: "Success"
+        ok: response.ok,
+        message: response.message,
+        statusCode: response.status,
     };
-
 
 }

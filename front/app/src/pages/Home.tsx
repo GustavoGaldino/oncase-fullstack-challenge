@@ -68,8 +68,7 @@ export function Home () {
     useEffect(() => {
 
         async function fetchResultFromAPIandSetState() {
-            const resultFromAPI = await fetchParticipationsData();
-            setParticipations ( resultFromAPI )
+            setParticipations ( (await fetchParticipationsData()).data )
         }
 
         fetchResultFromAPIandSetState()

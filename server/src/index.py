@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
+from flask_api import status
 from flask_cors import CORS, cross_origin
-
-from src.utils import updateAndReturnParticipationObject
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -37,7 +36,11 @@ participations = [
 @app.route("/participations")
 @cross_origin()
 def get_participations():
-    return jsonify(participations)
+    return jsonify({
+        "ok": True,
+        "message": "Success!",
+        "data": participations
+    }), status.HTTP_200_OK
 
 @app.route("/participations", methods=['POST'])
 @cross_origin()
@@ -49,15 +52,17 @@ def add_participation():
     result = any ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) for p in participations )
 
     if result:
-        mapFn = lambda p : updateAndReturnParticipationObject(p, data["participation"]) if ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) ) else p
-        participations = [mapFn(p) for p in participations]
+       return jsonify({
+            "ok": False,
+            "message": "Informação sobre participante não pôde ser criada pois já existe um participante com esse nome"
+        }), status.HTTP_400_BAD_REQUEST
     else:
         participations.append(data)
 
-    return jsonify({
-        "success": True,
-        "status_code": 200
-    })
+        return jsonify({
+            "ok": True,
+            "message": "Informação sobre participante criada com sucesso"
+        }), status.HTTP_201_CREATED
 
 @app.route("/participations", methods=['DELETE'])
 @cross_origin()
@@ -68,13 +73,18 @@ def remove_participation():
 
     result = any ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) for p in participations )
 
-    if result:
+    if not result:
+        return jsonify({
+            "ok": False,
+            "message": "Informação sobre usuário não pôde ser removida!"
+        }), status.HTTP_404_NOT_FOUND
+        
+    else:
         for obj in participations:
             if obj["firstName"] == data["firstName"] and data["lastName"] == obj["lastName"]:
                 participations.remove(obj)
 
-
-    return jsonify({
-        "success": True,
-        "status_code": 200
-    })
+        return jsonify({
+            "ok": True,
+            "message": "Informação sobre usuário removida com sucesso!"
+        }), status.HTTP_200_OK

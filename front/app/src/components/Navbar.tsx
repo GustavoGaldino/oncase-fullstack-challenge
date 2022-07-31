@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction } from 'react'
 import IParticipation from '../interfaces/participations'
 
 import { addParticipationData, fetchParticipationsData } from '../api/api'
+import { APIResponse } from '../api/interfaces/apiInterfaces'
 
 type NavbarProps = {
     setParticipations: Dispatch<SetStateAction<IParticipation[]>>;
@@ -39,11 +40,17 @@ export function Navbar({participations, setParticipations} : NavbarProps) {
 
             const participation : number = Number( participationAsString );
 
-            await addParticipationData ({
+            const apiResponse : APIResponse = await addParticipationData ({
                 firstName, lastName, participation
             })
 
-            setParticipations( await fetchParticipationsData() )
+            if ( apiResponse.ok ) {
+                setParticipations(  (await fetchParticipationsData()).data )
+            }
+
+            else {
+                alert ( apiResponse.message )
+            }
 
         }
     }
