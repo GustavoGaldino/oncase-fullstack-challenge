@@ -15,8 +15,26 @@ export async function fetchParticipationsData () : Promise<IParticipation[]> {
     return response
 }
 
-export function addParticipationData () : void {
-    return;
+export async function addParticipationData ( data : IParticipation ) : Promise<void> {
+
+    const config  = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+
+    const response = await fetch(`${env.API_ENDPOINT}/participations`, config)
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`)
+        }
+        return res;
+    })
+    .then(res => res.json())
+
+    return response;
 }
 
 export function removeParticipationData () : void {

@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+
+from src.utils import updateAndReturnParticipationObject
+
 app = Flask(__name__)
 cors = CORS(app)
 
@@ -39,5 +42,19 @@ def get_participations():
 @app.route("/participations", methods=['POST'])
 @cross_origin()
 def add_participation():
-    participations.append(request.get_json())
-    return '', 204
+    global participations
+
+    data = request.get_json()
+
+    result = any ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) for p in participations )
+
+    if result:
+        mapFn = lambda p : updateAndReturnParticipationObject(p, data["participation"]) if ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) ) else p
+        participations = [mapFn(p) for p in participations]
+    else:
+        participations.append(data)
+
+    return jsonify({
+        "success": True,
+        "status_code": 200
+    })

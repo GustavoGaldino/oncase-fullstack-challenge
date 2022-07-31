@@ -27,8 +27,6 @@ const HSLToRGB = (hsl : IhslObject) => {
 export function generateRandomRGBAsString () : string {
     const [randomRed, randomGreen, randomBlue] = HSLToRGB( generateRandomPrettyHSL() )
 
-    console.log(randomRed, randomGreen, randomBlue)
-
     return `
         rgb(${randomRed}, ${randomGreen}, ${randomBlue})
     `
