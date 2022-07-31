@@ -58,3 +58,23 @@ def add_participation():
         "success": True,
         "status_code": 200
     })
+
+@app.route("/participations", methods=['DELETE'])
+@cross_origin()
+def remove_participation():
+    global participations
+
+    data = request.get_json()
+
+    result = any ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) for p in participations )
+
+    if result:
+        for obj in participations:
+            if obj["firstName"] == data["firstName"] and data["lastName"] == obj["lastName"]:
+                participations.remove(obj)
+
+
+    return jsonify({
+        "success": True,
+        "status_code": 200
+    })
