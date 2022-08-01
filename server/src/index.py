@@ -1,3 +1,5 @@
+import copy
+
 from flask import Flask, jsonify, request
 from flask_api import status
 from flask_cors import CORS, cross_origin
@@ -5,7 +7,7 @@ from flask_cors import CORS, cross_origin
 app = Flask(__name__)
 cors = CORS(app)
 
-participations = [
+participations_initial_state = [
     {
         'firstName': 'Gustavo',
         'lastName': 'Galdino',
@@ -32,6 +34,8 @@ participations = [
         'participation': 8,
     }
 ]
+
+participations = copy.deepcopy(participations_initial_state)
 
 @app.route("/participations")
 @cross_origin()
@@ -88,3 +92,15 @@ def remove_participation():
             "ok": True,
             "message": "Informação sobre usuário removida com sucesso!"
         }), status.HTTP_200_OK
+
+@app.route("/participations/reset", methods=['POST'])
+@cross_origin()
+def reset_participations_data():
+    global participations
+
+    participations = copy.deepcopy(participations_initial_state)
+
+    return jsonify({
+        "ok": True,
+        "message": "Estado resetado com sucesso!"
+    }), status.HTTP_200_OK

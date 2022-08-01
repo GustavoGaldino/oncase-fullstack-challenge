@@ -1,10 +1,12 @@
 import '../styles/components/Navbar.css'
 
+import { BsArrowClockwise } from 'react-icons/bs'
+
 import { Dispatch, SetStateAction } from 'react'
 
 import IParticipation from '../interfaces/participations'
 
-import { addParticipationData, fetchParticipationsData } from '../api/api'
+import { addParticipationData, fetchParticipationsData, resetParticipationData } from '../api/api'
 import { APIResponse } from '../api/interfaces/apiInterfaces'
 import IAlert from '../interfaces/alert'
 
@@ -59,6 +61,20 @@ export function Navbar({participations, setParticipations, setAlert} : NavbarPro
         }
     }
 
+    async function handleReset() {
+        const apiResponse : APIResponse = await resetParticipationData();
+
+        if ( apiResponse.ok ) {
+            setParticipations(  (await fetchParticipationsData()).data )         
+        }
+
+        setAlert ({
+            show: true,
+            message: apiResponse.message,
+            warning: !apiResponse.ok,
+        })
+    }
+
     return (
         <div className="navbar-container" >
             <form action="" className="navbar-form" onSubmit={handleSubmit} >
@@ -74,6 +90,10 @@ export function Navbar({participations, setParticipations, setAlert} : NavbarPro
                     Send
                 </button>
             </form>
+
+            <button className="reset-icon-container" onClick={handleReset}>
+                <BsArrowClockwise />
+            </button>
         </div>
     )
 }

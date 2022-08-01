@@ -54,3 +54,19 @@ export async function removeParticipationData (data : IParticipation) : Promise<
     };
 
 }
+
+export async function resetParticipationData () : Promise<APIResponse> {
+
+    const config = {
+        method: 'POST',
+    }
+
+    const response = await fetch(`${env.API_ENDPOINT}/participations/reset` , config).then(res => res.json());
+
+    return {
+        ok: response.ok,
+        message: response.message,
+        statusCode: response.status,
+    };
+
+}

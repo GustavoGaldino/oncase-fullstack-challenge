@@ -43,3 +43,16 @@
 .navbar-form button:hover {
     background-color: var(--purple-darker);
 }
+
+.reset-icon-container {
+    position: absolute;
+
+    font-size: 3rem;
+
+    color: white;
+
+    top: .5rem;
+    left: .5rem;
+
+    cursor: pointer;
+}
