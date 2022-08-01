@@ -93,6 +93,31 @@ def remove_participation():
             "message": "Informação sobre usuário removida com sucesso!"
         }), status.HTTP_200_OK
 
+@app.route("/participations", methods=['PUT'])
+@cross_origin()
+def update_participation():
+    global participations
+
+    data = request.get_json()
+
+    result = any ( (data["firstName"] == p["firstName"]) and ( data["lastName"] == p["lastName"] ) for p in participations )
+
+    if not result:
+        return jsonify({
+            "ok": False,
+            "message": "Informação sobre usuário não pôde ser atualizada!"
+        }), status.HTTP_404_NOT_FOUND
+        
+    else:
+        for obj in participations:
+            if obj["firstName"] == data["firstName"] and data["lastName"] == obj["lastName"]:
+                obj["participation"] = data["participation"]
+
+        return jsonify({
+            "ok": True,
+            "message": "Informação sobre usuário atualizada com sucesso!"
+        }), status.HTTP_200_OK
+
 @app.route("/participations/reset", methods=['POST'])
 @cross_origin()
 def reset_participations_data():
