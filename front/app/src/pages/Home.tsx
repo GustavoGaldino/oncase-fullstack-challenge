@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { fetchParticipationsData } from '../api/api';
 
-import { generateRandomRGBAsString } from '../utils/utils';
+import { generateRGBAsStringFromString } from '../utils/utils';
 
 import { ChartData, ChartDataset } from 'chart.js';
 
@@ -54,7 +54,9 @@ export function Home () {
                 totalParticipation += participation.participation;
             }
 
-            firstDataset.backgroundColor.push( generateRandomRGBAsString() )
+            firstDataset.backgroundColor.push(
+                generateRGBAsStringFromString(participation.firstName + participation.lastName)
+            )
 
             firstDataset.borderColor.push( "#fff" ) 
 
