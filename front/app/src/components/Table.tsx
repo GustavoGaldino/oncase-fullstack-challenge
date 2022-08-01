@@ -162,7 +162,7 @@ export function Table ({participations, setParticipations, setAlert} : TableProp
                                 }
                             </td>
                             <td className="normal-cell">
-                                {p.percentage ? String(p.percentage * 100) + "%"  : "Unknown"}
+                                {p.percentage ? String(p.percentage ) + "%"  : "Unknown"}
                             </td>
                             <td className="index-cell" >
                                 <button type="button" onClick={() => {

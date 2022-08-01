@@ -62,8 +62,8 @@ export function Home () {
 
         participations.map ( (participation : IParticipation) => {
             if (participation.participation !== undefined) {
-                let percentage = Number((participation.participation / totalParticipation).toFixed(2));
-                participation.percentage = percentage;
+                let percentage : number | string = Math.round(100 * participation.participation / totalParticipation);
+                participation.percentage = Number(percentage);
             }
         } );
 
