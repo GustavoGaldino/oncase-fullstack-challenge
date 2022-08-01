@@ -6,30 +6,18 @@ import { Dispatch, SetStateAction } from 'react'
 
 import IParticipation from '../interfaces/participations'
 
+import { isFormDataValid } from '../utils/validateForm'
+
 import { addParticipationData, fetchParticipationsData, resetParticipationData } from '../api/api'
 import { APIResponse } from '../api/interfaces/apiInterfaces'
 import IAlert from '../interfaces/alert'
 
 type NavbarProps = {
     setParticipations: Dispatch<SetStateAction<IParticipation[]>>;
-    participations : IParticipation[];
     setAlert: Dispatch<SetStateAction<IAlert>>;
 }
 
-export function Navbar({participations, setParticipations, setAlert} : NavbarProps) {
-
-    function isStringPositiveInteger (str : string ) {
-        const num : Number = Number(str)
-
-        return Number.isInteger(num) && num > 0
-    }
-
-    function isFormDataValid(firstName: string, lastName: string, participation: string) {
-        return (
-            (firstName !== undefined) && (lastName !== undefined)
-            && (participation !== undefined) && (isStringPositiveInteger(participation))
-        );
-    }
+export function Navbar({setParticipations, setAlert} : NavbarProps) {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement> ) {
         event.preventDefault();

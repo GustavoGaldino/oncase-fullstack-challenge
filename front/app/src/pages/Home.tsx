@@ -87,7 +87,6 @@ export function Home () {
         <div className="home-container">
 
             <Navbar
-                participations={participations}
                 setParticipations={setParticipations}
                 setAlert={setAlert}
             />

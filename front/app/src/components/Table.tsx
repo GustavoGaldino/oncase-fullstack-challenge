@@ -6,6 +6,8 @@ import { BsPencil, BsTrash, BsCheckSquare, BsXSquare } from 'react-icons/bs'
 
 import { fetchParticipationsData, removeParticipationData, updateParticipationData } from '../api/api'
 
+import { isFormDataValid } from '../utils/validateForm'
+
 import IAlert from '../interfaces/alert';
 import IParticipation from '../interfaces/participations';
 
@@ -72,23 +74,27 @@ export function Table ({participations, setParticipations, setAlert} : TableProp
         const firstName : string = target.firstName.value;
         const lastName : string = target.lastName.value;
 
-        const apiResponse = await updateParticipationData({
-            firstName,
-            lastName,
-            participation: Number(newParticipation)
-        });
+        if ( isFormDataValid( firstName, lastName, newParticipation ) ) {
 
-        if ( apiResponse.ok ) {
-            setParticipations(  (await fetchParticipationsData()).data );
+            const apiResponse = await updateParticipationData({
+                firstName,
+                lastName,
+                participation: Number(newParticipation)
+            });
+
+            if ( apiResponse.ok ) {
+                setParticipations(  (await fetchParticipationsData()).data );
+            }
+
+            await setAlert ({
+                show: true,
+                message: apiResponse.message,
+                warning: !apiResponse.ok,
+            });
+
+            await setEditingIndex(-1);
+
         }
-
-        await setAlert ({
-            show: true,
-            message: apiResponse.message,
-            warning: !apiResponse.ok,
-        });
-
-        await setEditingIndex(-1);
 
     }
 
