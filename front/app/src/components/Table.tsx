@@ -1,4 +1,3 @@
-import IParticipation from '../interfaces/participations';
 import '../styles/components/Table.css'
 
 import { Dispatch, SetStateAction } from 'react'
@@ -7,9 +6,13 @@ import { BsTrash } from 'react-icons/bs'
 
 import { fetchParticipationsData, removeParticipationData } from '../api/api'
 
+import IAlert from '../interfaces/alert';
+import IParticipation from '../interfaces/participations';
+
 type TableProps = {
     participations: IParticipation[];
     setParticipations: Dispatch<SetStateAction<IParticipation[]>>;
+    setAlert: Dispatch<SetStateAction<IAlert>>;
 }
 
 const tableHeadCells = [
@@ -39,22 +42,24 @@ const tableHeadCells = [
     }
 ]
 
-export function Table ({participations, setParticipations} : TableProps) {
+export function Table ({participations, setParticipations, setAlert} : TableProps) {
 
     const handleRemove = async (firstName: string, lastName: string) => {
 
-        const response = await removeParticipationData({
+        const apiResponse = await removeParticipationData({
             firstName,
             lastName
         })
 
-        if (response.ok) {
+        if (apiResponse.ok) {
             setParticipations ( (await fetchParticipationsData()).data );
         }
 
-        else {
-            alert ( response.message )
-        }
+        setAlert ({
+            show: true,
+            message: apiResponse.message,
+            warning: !apiResponse.ok,
+        })
 
     }
 

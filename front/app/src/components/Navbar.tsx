@@ -6,13 +6,15 @@ import IParticipation from '../interfaces/participations'
 
 import { addParticipationData, fetchParticipationsData } from '../api/api'
 import { APIResponse } from '../api/interfaces/apiInterfaces'
+import IAlert from '../interfaces/alert'
 
 type NavbarProps = {
     setParticipations: Dispatch<SetStateAction<IParticipation[]>>;
     participations : IParticipation[];
+    setAlert: Dispatch<SetStateAction<IAlert>>;
 }
 
-export function Navbar({participations, setParticipations} : NavbarProps) {
+export function Navbar({participations, setParticipations, setAlert} : NavbarProps) {
 
     function isStringPositiveInteger (str : string ) {
         const num : Number = Number(str)
@@ -45,12 +47,14 @@ export function Navbar({participations, setParticipations} : NavbarProps) {
             })
 
             if ( apiResponse.ok ) {
-                setParticipations(  (await fetchParticipationsData()).data )
+                setParticipations(  (await fetchParticipationsData()).data )         
             }
 
-            else {
-                alert ( apiResponse.message )
-            }
+            setAlert ({
+                show: true,
+                message: apiResponse.message,
+                warning: !apiResponse.ok,
+            })
 
         }
     }

@@ -8,13 +8,18 @@
     --background: #f2f3f5;
     --title:#2E384D;
     --red: #E83F5B;
-    --green: #4CD62B;
     --blue: #7178ca;
     --blue-dark: #333eb4;
     --purple: #1f2579;
     --purple-darker: #0d1252;
     --text: #666666;
     --mild-white: rgba(255, 255, 255, 0.8);
+
+    --green-alert: #81e3a5;
+    --green-alert-darker: #319119;
+
+    --yellow-alert: #ede42d;
+    --yellow-alert-darker: #6e690a;
 }
 
 @media(max-width: 1080px) {

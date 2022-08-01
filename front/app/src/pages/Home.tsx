@@ -12,12 +12,20 @@ import { Navbar } from '../components/Navbar'
 import { Main } from '../components/Main'
 
 import '../styles/pages/Home.css'
+import { Alert } from '../components/Alert';
+import IAlert from '../interfaces/alert';
 
 export function Home () {
 
     const [participations, setParticipations] = useState<IParticipation[]>([]);
 
     const [data, setData] = useState<ChartData<"doughnut", number[], unknown>>( { datasets: [] } )
+
+    const [alert, setAlert] = useState<IAlert>({
+        show: false,
+        warning: false,
+        message: ""
+    });
 
     // whenever participations change, update data
     useEffect(() => {
@@ -77,15 +85,30 @@ export function Home () {
 
     return (
         <div className="home-container">
+
             <Navbar
                 participations={participations}
                 setParticipations={setParticipations}
+                setAlert={setAlert}
             />
+
             <Main
                 data={data}
                 participations={participations}
                 setParticipations={setParticipations}
+                setAlert={setAlert}
             />
+
+            { 
+                alert.show ?
+                <Alert
+                    alert={alert}
+                    setAlert={setAlert}
+                />
+                :
+                <></>
+            }   
+            
         </div>
     );
 }
