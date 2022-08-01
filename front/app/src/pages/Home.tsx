@@ -44,7 +44,7 @@ export function Home () {
 
         let totalParticipation = 0;
 
-        participations.map( (participation : IParticipation) => {
+        participations.forEach( (participation : IParticipation) => {
             
             newDataState.labels?.push(`${participation.firstName} ${participation.lastName}`)
 
@@ -60,7 +60,7 @@ export function Home () {
 
         })
 
-        participations.map ( (participation : IParticipation) => {
+        participations.forEach ( (participation : IParticipation) => {
             if (participation.participation !== undefined) {
                 let percentage : number | string = Math.round(100 * participation.participation / totalParticipation);
                 participation.percentage = Number(percentage);

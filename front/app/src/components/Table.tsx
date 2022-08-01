@@ -97,83 +97,87 @@ export function Table ({participations, setParticipations, setAlert} : TableProp
     return (
         <div className="table-container">
             <table>
-                <tr>
-                    {tableHeadCells.map(cell => {
+                <thead>
+                    <tr>
+                        {tableHeadCells.map( (cell, index) => {
+                            return (
+                                <th className={cell.indexCell ? "index-cell" : "normal-cell"} key={index}>
+                                    {cell.text}
+                                </th>
+                            )
+                        })}
+                    </tr>
+                </thead>
+                <tbody>
+                    {participations.map( (p, index) => {
                         return (
-                            <th className={cell.indexCell ? "index-cell" : "normal-cell"}>
-                                {cell.text}
-                            </th>
+                            <tr key={index}>
+                                <td className="index-cell" >
+                                    <span>
+                                        {index}
+                                    </span>
+                                </td>
+                                <td className="normal-cell">
+                                    {p.firstName}
+                                </td>
+                                <td className="normal-cell">
+                                    {p.lastName}
+                                </td>
+                                <td className="normal-cell">
+                                    {
+                                        index !== editingIndex ? 
+                                        <>
+                                            {p.participation}
+                                            <button onClick={() => {
+                                                setEditingIndex(index)
+                                            }} >
+                                                < BsPencil className="pencil-icon" />
+                                            </button>
+                                        </>
+                                        :
+                                        <form className="participation-form" onSubmit={handleUpdate}>
+                                            <input
+                                                placeholder={ String(p.participation) }
+                                                type="number"
+                                                name="participation"
+                                                min="1"
+                                                defaultValue={p.participation}
+                                            />
+                                            <input
+                                                name="firstName"
+                                                type="hidden"
+                                                value={p.firstName}
+                                            />
+                                            <input
+                                                name="lastName"
+                                                type="hidden"
+                                                value={p.lastName}
+                                            />
+                                            <button onClick={() => {
+                                                setEditingIndex(-1)
+                                            }}>
+                                                <BsXSquare className="cancel-icon" />
+                                            </button>
+                                            <button type="submit" >
+                                                <BsCheckSquare className="confirm-icon" />
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                                <td className="normal-cell">
+                                    {p.percentage ? String(p.percentage ) + "%"  : "Unknown"}
+                                </td>
+                                <td className="index-cell" >
+                                    <button type="button" onClick={() => {
+                                        handleRemove(p.firstName, p.lastName);
+                                    }}>
+                                        <BsTrash />
+                                    </button>
+                                </td>
+                            </tr>
                         )
                     })}
-                </tr>
-                {participations.map( (p, index) => {
-                    return (
-                        <tr>
-                            <td className="index-cell" >
-                                <span>
-                                    {index}
-                                </span>
-                            </td>
-                            <td className="normal-cell">
-                                {p.firstName}
-                            </td>
-                            <td className="normal-cell">
-                                {p.lastName}
-                            </td>
-                            <td className="normal-cell">
-                                {
-                                    index !== editingIndex ? 
-                                    <>
-                                        {p.participation}
-                                        <button onClick={() => {
-                                            setEditingIndex(index)
-                                        }} >
-                                            < BsPencil className="pencil-icon" />
-                                        </button>
-                                    </>
-                                    :
-                                    <form className="participation-form" onSubmit={handleUpdate}>
-                                        <input
-                                            placeholder={ String(p.participation) }
-                                            type="number"
-                                            name="participation"
-                                            min="1"
-                                            defaultValue={p.participation}
-                                        />
-                                        <input
-                                            name="firstName"
-                                            type="hidden"
-                                            value={p.firstName}
-                                        />
-                                        <input
-                                            name="lastName"
-                                            type="hidden"
-                                            value={p.lastName}
-                                        />
-                                        <button onClick={() => {
-                                            setEditingIndex(-1)
-                                        }}>
-                                            <BsXSquare className="cancel-icon" />
-                                        </button>
-                                        <button type="submit" >
-                                            <BsCheckSquare className="confirm-icon" />
-                                        </button>
-                                    </form>
-                                }
-                            </td>
-                            <td className="normal-cell">
-                                {p.percentage ? String(p.percentage ) + "%"  : "Unknown"}
-                            </td>
-                            <td className="index-cell" >
-                                <button type="button" onClick={() => {
-                                    handleRemove(p.firstName, p.lastName);
-                                }}>
-                                    <BsTrash />
-                                </button>
-                            </td>
-                        </tr>
-                    )
-                })}
+                </tbody>
             </table>
         </div>
     );

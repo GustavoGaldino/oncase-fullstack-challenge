@@ -1,4 +1,4 @@
-import { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import { useEffect, Dispatch, SetStateAction } from 'react'
 import '../styles/components/Alert.css'
 
 import { BsXCircle } from 'react-icons/bs'
@@ -33,7 +33,7 @@ export function Alert ( { alert , setAlert } : AlertProps) {
         }
 
     },
-    [])
+    [alert, setAlert])
 
     const closeAlert = async () => {
 
@@ -61,7 +61,7 @@ export function Alert ( { alert , setAlert } : AlertProps) {
             <div className="alert-closing-icon" onClick={closeAlert} >
                 <BsXCircle />
             </div>
-            
+
         </div>
     )
 }
