@@ -83,7 +83,7 @@ export function Navbar({participations, setParticipations, setAlert} : NavbarPro
                 <input
                     placeholder="Participation"
                     type="number"
-                    min="0"
+                    min="1"
                     name="participation"
                 />
                 <button type="submit">

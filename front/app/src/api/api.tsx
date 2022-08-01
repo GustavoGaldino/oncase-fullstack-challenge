@@ -70,3 +70,23 @@ export async function resetParticipationData () : Promise<APIResponse> {
     };
 
 }
+
+export async function updateParticipationData (data : IParticipation) : Promise<APIResponse> {
+
+    const config = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }
+
+    const response = await fetch(`${env.API_ENDPOINT}/participations`, config).then(res => res.json());
+
+    return {
+        ok: response.ok,
+        message: response.message,
+        statusCode: response.status,
+    };
+
+}

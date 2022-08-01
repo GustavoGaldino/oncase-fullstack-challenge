@@ -1,10 +1,10 @@
 import '../styles/components/Table.css'
 
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
-import { BsTrash } from 'react-icons/bs'
+import { BsPencil, BsTrash, BsCheckSquare, BsXSquare } from 'react-icons/bs'
 
-import { fetchParticipationsData, removeParticipationData } from '../api/api'
+import { fetchParticipationsData, removeParticipationData, updateParticipationData } from '../api/api'
 
 import IAlert from '../interfaces/alert';
 import IParticipation from '../interfaces/participations';
@@ -63,6 +63,37 @@ export function Table ({participations, setParticipations, setAlert} : TableProp
 
     }
 
+    const handleUpdate = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const target : any = event.target;
+
+        const newParticipation : string = target.participation.value;
+        const firstName : string = target.firstName.value;
+        const lastName : string = target.lastName.value;
+
+        const apiResponse = await updateParticipationData({
+            firstName,
+            lastName,
+            participation: Number(newParticipation)
+        });
+
+        if ( apiResponse.ok ) {
+            setParticipations(  (await fetchParticipationsData()).data );
+        }
+
+        await setAlert ({
+            show: true,
+            message: apiResponse.message,
+            warning: !apiResponse.ok,
+        });
+
+        await setEditingIndex(-1);
+
+    }
+
+    const [editingIndex, setEditingIndex] = useState<Number>(-1);
+
     return (
         <div className="table-container">
             <table>
@@ -90,7 +121,45 @@ export function Table ({participations, setParticipations, setAlert} : TableProp
                                 {p.lastName}
                             </td>
                             <td className="normal-cell">
-                                {p.participation}
+                                {
+                                    index !== editingIndex ? 
+                                    <>
+                                        {p.participation}
+                                        <button onClick={() => {
+                                            setEditingIndex(index)
+                                        }} >
+                                            < BsPencil className="pencil-icon" />
+                                        </button>
+                                    </>
+                                    :
+                                    <form className="participation-form" onSubmit={handleUpdate}>
+                                        <input
+                                            placeholder={ String(p.participation) }
+                                            type="number"
+                                            name="participation"
+                                            min="1"
+                                            defaultValue={p.participation}
+                                        />
+                                        <input
+                                            name="firstName"
+                                            type="hidden"
+                                            value={p.firstName}
+                                        />
+                                        <input
+                                            name="lastName"
+                                            type="hidden"
+                                            value={p.lastName}
+                                        />
+                                        <button onClick={() => {
+                                            setEditingIndex(-1)
+                                        }}>
+                                            <BsXSquare className="cancel-icon" />
+                                        </button>
+                                        <button type="submit" >
+                                            <BsCheckSquare className="confirm-icon" />
+                                        </button>
+                                    </form>
+                                }
                             </td>
                             <td className="normal-cell">
                                 {p.percentage ? String(p.percentage * 100) + "%"  : "Unknown"}

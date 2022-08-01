@@ -54,3 +54,38 @@ tr {
     font-size: .875rem;
     margin-top: 4px;
 }
+
+.pencil-icon {
+    margin-left: 4px;
+
+    margin-top: 4px;
+}
+
+.participation-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.participation-form input{
+    width: 40%;
+
+    height: 1.5rem;
+    padding: 0.55rem;
+
+    font-size: .75rem;
+}
+
+.confirm-icon {
+    color: var(--green-confirm);
+    font-size: 1.4rem;
+    margin-left: .25rem
+}
+
+
+.cancel-icon {
+    color: red;
+    font-size: 1.4rem;
+
+    margin-left: .25rem;
+}

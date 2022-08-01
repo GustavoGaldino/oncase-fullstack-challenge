@@ -20,6 +20,8 @@
 
     --yellow-alert: #ede42d;
     --yellow-alert-darker: #6e690a;
+
+    --green-confirm: #15e762;
 }
 
 @media(max-width: 1080px) {
