@@ -58,15 +58,9 @@ export function Alert ( { alert , setAlert } : AlertProps) {
                 {alert.message}
             </span>
 
-            {
-                alert.warning
-                ? 
-                <div className="alert-closing-icon" onClick={closeAlert} >
-                    <BsXCircle />
-                </div>
-                :
-                <></>
-            }
+            <div className="alert-closing-icon" onClick={closeAlert} >
+                <BsXCircle />
+            </div>
             
         </div>
     )
