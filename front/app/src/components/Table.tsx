@@ -27,7 +27,7 @@ const tableHeadCells = [
         indexCell: false
     },
     {
-        text: "First Name",
+        text: "Last Name",
         indexCell: false
     },
     {
