@@ -3,8 +3,10 @@ import env from 'react-dotenv'
 import IParticipation from '../interfaces/participations';
 import { APIResponse } from './interfaces/apiInterfaces';
 
+const API_ENDPOINT = env.API_ENDPOINT || "http://localhost:5000";
+
 export async function fetchParticipationsData () : Promise<APIResponse> {
-    const response = await fetch(`${env.API_ENDPOINT}/participations`).then(res => res.json());
+    const response = await fetch(`${API_ENDPOINT}/participations`).then(res => res.json());
 
     return {
         ok: response.ok,
@@ -25,7 +27,7 @@ export async function addParticipationData ( data : IParticipation ) : Promise<A
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(`${env.API_ENDPOINT}/participations`, config).then(res => res.json());
+    const response = await fetch(`${API_ENDPOINT}/participations`, config).then(res => res.json());
 
     return {
         ok: response.ok,
@@ -45,7 +47,7 @@ export async function removeParticipationData (data : IParticipation) : Promise<
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(`${env.API_ENDPOINT}/participations`, config).then(res => res.json());
+    const response = await fetch(`${API_ENDPOINT}/participations`, config).then(res => res.json());
 
     return {
         ok: response.ok,
@@ -61,7 +63,7 @@ export async function resetParticipationData () : Promise<APIResponse> {
         method: 'POST',
     }
 
-    const response = await fetch(`${env.API_ENDPOINT}/participations/reset` , config).then(res => res.json());
+    const response = await fetch(`${API_ENDPOINT}/participations/reset` , config).then(res => res.json());
 
     return {
         ok: response.ok,
@@ -81,7 +83,7 @@ export async function updateParticipationData (data : IParticipation) : Promise<
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(`${env.API_ENDPOINT}/participations`, config).then(res => res.json());
+    const response = await fetch(`${API_ENDPOINT}/participations`, config).then(res => res.json());
 
     return {
         ok: response.ok,
