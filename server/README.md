@@ -1,1 +1,1 @@
-To activate virtualenv, run $ source virtualenv/bin/activate on server dir.
+To run this API in port 5000, run ./bootstrap.sh inside src directory
